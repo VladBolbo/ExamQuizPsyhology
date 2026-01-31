@@ -1,0 +1,14 @@
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.log
+
+# Original question images (not needed for web app)
+Questions/

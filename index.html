@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ro" ng-app="quizApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Psihologie - Atitudini</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="QuizController">
+    <div class="container">
+        <!-- Header -->
+        <header class="quiz-header">
+            <h1>Quiz Psihologie</h1>
+            <h2>Tema: Atitudini</h2>
+        </header>
+
+        <!-- Start Screen -->
+        <div class="start-screen" ng-show="!quizStarted && !quizFinished">
+            <div class="start-content">
+                <h2>Bine ai venit!</h2>
+                <p>Acest quiz contine <strong>{{questions.length}}</strong> intrebari despre atitudini in psihologie.</p>
+                <p>Ai la dispozitie <strong>1 ora</strong> pentru a completa quiz-ul.</p>
+                <p>Intrebarile pot fi cu raspuns unic sau cu raspunsuri multiple.</p>
+                <button class="btn btn-start" ng-click="startQuiz()">Incepe Quiz-ul</button>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div class="quiz-screen" ng-show="quizStarted && !quizFinished">
+            <!-- Timer and Progress -->
+            <div class="quiz-info">
+                <div class="timer" ng-class="{'timer-warning': timeRemaining < 300}">
+                    <span class="timer-icon">&#9201;</span>
+                    <span>{{formatTime(timeRemaining)}}</span>
+                </div>
+                <div class="progress-info">
+                    <span>Intrebarea {{currentQuestionIndex + 1}} din {{questions.length}}</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" ng-style="{'width': ((currentQuestionIndex + 1) / questions.length * 100) + '%'}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question -->
+            <div class="question-container">
+                <div class="question-type" ng-show="currentQuestion.type === 'multiple'">
+                    <span class="badge badge-multiple">Raspunsuri multiple</span>
+                </div>
+                <div class="question-type" ng-show="currentQuestion.type === 'single'">
+                    <span class="badge badge-single">Raspuns unic</span>
+                </div>
+
+                <h3 class="question-text">{{currentQuestionIndex + 1}}. {{currentQuestion.question}}</h3>
+
+                <!-- Single Choice -->
+                <div class="options" ng-show="currentQuestion.type === 'single'">
+                    <div class="option" ng-repeat="option in currentQuestion.options"
+                         ng-click="selectSingleAnswer($index)"
+                         ng-class="{'selected': userAnswers[currentQuestion.id] && userAnswers[currentQuestion.id].indexOf($index) !== -1}">
+                        <span class="option-letter">{{getLetter($index)}}</span>
+                        <span class="option-text">{{option}}</span>
+                    </div>
+                </div>
+
+                <!-- Multiple Choice -->
+                <div class="options" ng-show="currentQuestion.type === 'multiple'">
+                    <div class="option" ng-repeat="option in currentQuestion.options"
+                         ng-click="toggleMultipleAnswer($index)"
+                         ng-class="{'selected': userAnswers[currentQuestion.id] && userAnswers[currentQuestion.id].indexOf($index) !== -1}">
+                        <span class="option-checkbox">
+                            <span ng-show="userAnswers[currentQuestion.id] && userAnswers[currentQuestion.id].indexOf($index) !== -1">&#10003;</span>
+                        </span>
+                        <span class="option-text">{{option}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <button class="btn btn-nav" ng-click="previousQuestion()" ng-disabled="currentQuestionIndex === 0">
+                    &larr; Inapoi
+                </button>
+                <button class="btn btn-nav" ng-click="nextQuestion()" ng-show="currentQuestionIndex < questions.length - 1">
+                    Urmatoarea &rarr;
+                </button>
+                <button class="btn btn-finish" ng-click="finishQuiz()" ng-show="currentQuestionIndex === questions.length - 1">
+                    Finalizeaza Quiz-ul
+                </button>
+            </div>
+
+            <!-- Question Navigator -->
+            <div class="question-navigator">
+                <h4>Navigator intrebari:</h4>
+                <div class="nav-buttons">
+                    <button class="nav-btn"
+                            ng-repeat="q in questions"
+                            ng-click="goToQuestion($index)"
+                            ng-class="{
+                                'current': $index === currentQuestionIndex,
+                                'answered': userAnswers[q.id] && userAnswers[q.id].length > 0
+                            }">
+                        {{$index + 1}}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="results-screen" ng-show="quizFinished">
+            <div class="results-content">
+                <h2>Rezultate Quiz</h2>
+
+                <div class="score-display">
+                    <div class="score-circle" ng-class="{'score-good': scorePercentage >= 70, 'score-medium': scorePercentage >= 50 && scorePercentage < 70, 'score-low': scorePercentage < 50}">
+                        <span class="score-number">{{score}}</span>
+                        <span class="score-total">/ {{questions.length}}</span>
+                    </div>
+                    <p class="score-percentage">{{scorePercentage}}%</p>
+                </div>
+
+                <div class="results-summary">
+                    <p><strong>Raspunsuri corecte:</strong> {{score}}</p>
+                    <p><strong>Raspunsuri gresite:</strong> {{questions.length - score}}</p>
+                    <p><strong>Timp utilizat:</strong> {{formatTime(3600 - timeRemaining)}}</p>
+                </div>
+
+                <div class="results-message">
+                    <p ng-show="scorePercentage >= 90">Excelent! Felicitari pentru rezultatul exceptional!</p>
+                    <p ng-show="scorePercentage >= 70 && scorePercentage < 90">Foarte bine! Ai o intelegere solida a materiei.</p>
+                    <p ng-show="scorePercentage >= 50 && scorePercentage < 70">Bine! Mai ai de lucrat, dar esti pe drumul cel bun.</p>
+                    <p ng-show="scorePercentage < 50">Mai exerseaza! Reciteste materialul si incearca din nou.</p>
+                </div>
+
+                <!-- Review Answers -->
+                <div class="review-section">
+                    <h3>Revizuire raspunsuri:</h3>
+                    <div class="review-question" ng-repeat="q in questions">
+                        <div class="review-header" ng-class="{'correct': isQuestionCorrect(q), 'incorrect': !isQuestionCorrect(q)}">
+                            <span class="review-status">{{isQuestionCorrect(q) ? '&#10003;' : '&#10007;'}}</span>
+                            <span class="review-number">{{$index + 1}}.</span>
+                            <span class="review-text">{{q.question | limitTo:100}}{{q.question.length > 100 ? '...' : ''}}</span>
+                        </div>
+                        <div class="review-details" ng-show="!isQuestionCorrect(q)">
+                            <p><strong>Raspunsul tau:</strong></p>
+                            <ul>
+                                <li ng-repeat="idx in userAnswers[q.id]">{{q.options[idx]}}</li>
+                                <li ng-show="!userAnswers[q.id] || userAnswers[q.id].length === 0"><em>Niciun raspuns selectat</em></li>
+                            </ul>
+                            <p><strong>Raspunsul corect:</strong></p>
+                            <ul>
+                                <li ng-repeat="idx in q.correctAnswers">{{q.options[idx]}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-actions">
+                    <button class="btn btn-restart" ng-click="resetQuiz()">Reia Quiz-ul</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
