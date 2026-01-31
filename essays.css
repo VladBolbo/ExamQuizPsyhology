@@ -1,0 +1,274 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.8;
+    color: #333;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Header */
+header {
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+header h2 {
+    font-size: 1.3em;
+    font-weight: 400;
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+.back-link {
+    display: inline-block;
+    color: #64ffda;
+    text-decoration: none;
+    padding: 10px 25px;
+    border: 2px solid #64ffda;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.back-link:hover {
+    background: #64ffda;
+    color: #1a1a2e;
+}
+
+/* Essay Articles */
+.essay {
+    background: white;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.essay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.essay-number {
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.essay-points {
+    background: rgba(255,255,255,0.2);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+
+.essay-question {
+    padding: 25px 30px;
+    background: #f8f9fa;
+    color: #333;
+    font-size: 1.15em;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.concepts-list {
+    padding: 15px 30px 15px 50px;
+    background: #f0f4f8;
+    border-bottom: 2px solid #e0e0e0;
+    columns: 2;
+    column-gap: 30px;
+}
+
+.concepts-list li {
+    padding: 3px 0;
+    color: #555;
+    break-inside: avoid;
+}
+
+.diagram-description {
+    padding: 20px 30px;
+    background: #fff3e0;
+    border-bottom: 2px solid #ffe0b2;
+}
+
+.diagram-description p {
+    margin-bottom: 10px;
+    color: #e65100;
+    font-style: italic;
+}
+
+.diagram-description ul {
+    margin-left: 20px;
+    color: #bf360c;
+}
+
+.diagram-description li {
+    margin: 5px 0;
+}
+
+/* Essay Answer Content */
+.essay-answer {
+    padding: 30px;
+}
+
+.essay-answer h4 {
+    color: #667eea;
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #667eea;
+}
+
+.essay-answer h5 {
+    color: #333;
+    font-size: 1.15em;
+    margin: 25px 0 15px 0;
+    padding-left: 15px;
+    border-left: 4px solid #764ba2;
+}
+
+.essay-answer p {
+    margin-bottom: 15px;
+    text-align: justify;
+    color: #444;
+}
+
+.essay-answer ul {
+    margin: 15px 0 20px 25px;
+}
+
+.essay-answer li {
+    margin: 10px 0;
+    color: #555;
+}
+
+.essay-answer li strong {
+    color: #333;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 30px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 20px;
+}
+
+footer p {
+    margin-bottom: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    header h2 {
+        font-size: 1em;
+    }
+
+    .essay-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .essay-question {
+        padding: 20px;
+        font-size: 1.05em;
+    }
+
+    .concepts-list {
+        columns: 1;
+        padding: 15px 20px 15px 40px;
+    }
+
+    .essay-answer {
+        padding: 20px;
+    }
+
+    .essay-answer h4 {
+        font-size: 1.2em;
+    }
+
+    .essay-answer h5 {
+        font-size: 1.05em;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    header {
+        background: none;
+        color: #333;
+    }
+
+    .back-link {
+        display: none;
+    }
+
+    .essay {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        break-inside: avoid;
+    }
+
+    .essay-header {
+        background: #f0f0f0;
+        color: #333;
+    }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #764ba2;
+}

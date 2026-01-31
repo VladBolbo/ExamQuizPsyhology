@@ -98,6 +98,25 @@ body {
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
+.essays-link {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.btn-essays {
+    display: inline-block;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white;
+    text-decoration: none;
+    padding: 12px 30px;
+}
+
+.btn-essays:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
 /* Start Screen */
 .start-screen {
     background: white;
