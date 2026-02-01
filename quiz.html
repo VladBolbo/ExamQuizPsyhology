@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toate Intrebarile - Quiz Psihologie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header h2 {
+            font-size: 1.3em;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: #64ffda;
+            text-decoration: none;
+            padding: 10px 25px;
+            border: 2px solid #64ffda;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: #64ffda;
+            color: #1a1a2e;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .question-number {
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .question-type {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .type-single {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .type-multiple {
+            background: rgba(255,193,7,0.3);
+        }
+
+        .question-body {
+            padding: 20px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .options-list {
+            list-style: none;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            transition: all 0.2s ease;
+        }
+
+        .option-item.correct {
+            background: linear-gradient(135deg, rgba(17, 153, 142, 0.15) 0%, rgba(56, 239, 125, 0.15) 100%);
+            border: 2px solid #11998e;
+        }
+
+        .option-item.incorrect {
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            opacity: 0.7;
+        }
+
+        .option-marker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.85em;
+        }
+
+        .correct .option-marker {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .incorrect .option-marker {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .option-text {
+            flex: 1;
+            color: #444;
+        }
+
+        .correct .option-text {
+            color: #1a1a2e;
+            font-weight: 500;
+        }
+
+        .check-icon {
+            color: #11998e;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                padding: 10px;
+            }
+
+            header {
+                background: none;
+                color: #333;
+                padding: 10px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .question-card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                break-inside: avoid;
+                margin-bottom: 15px;
+            }
+
+            .question-header {
+                background: #f0f0f0;
+                color: #333;
+            }
+
+            footer {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .question-body {
+                padding: 15px;
+            }
+
+            .question-text {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Toate Intrebarile</h1>
+            <h2>Quiz Psihologie - Atitudini</h2>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Inapoi la Quiz</a>
+                <a href="essays.html" class="nav-link">Vezi Eseurile</a>
+            </div>
+        </header>
+
+        <main id="questions-container">
+            <!-- Questions will be inserted here by JavaScript -->
+        </main>
+
+        <footer>
+            <p>Total: <span id="total-count"></span> intrebari</p>
+        </footer>
+    </div>
+
+    <script src="questions.js"></script>
+    <script>
+        function getLetter(index) {
+            return String.fromCharCode(65 + index);
+        }
+
+        function renderQuestions() {
+            var container = document.getElementById('questions-container');
+            var html = '';
+
+            quizQuestions.forEach(function(q, qIndex) {
+                var typeLabel = q.type === 'multiple' ? 'Raspunsuri multiple' : 'Raspuns unic';
+                var typeClass = q.type === 'multiple' ? 'type-multiple' : 'type-single';
+
+                html += '<div class="question-card">';
+                html += '<div class="question-header">';
+                html += '<span class="question-number">Intrebarea ' + (qIndex + 1) + '</span>';
+                html += '<span class="question-type ' + typeClass + '">' + typeLabel + '</span>';
+                html += '</div>';
+                html += '<div class="question-body">';
+                html += '<p class="question-text">' + q.question + '</p>';
+                html += '<ul class="options-list">';
+
+                q.options.forEach(function(option, oIndex) {
+                    var isCorrect = q.correctAnswers.indexOf(oIndex) !== -1;
+                    var itemClass = isCorrect ? 'correct' : 'incorrect';
+
+                    html += '<li class="option-item ' + itemClass + '">';
+                    html += '<span class="option-marker">' + getLetter(oIndex) + '</span>';
+                    html += '<span class="option-text">' + option + '</span>';
+                    if (isCorrect) {
+                        html += '<span class="check-icon">&#10003;</span>';
+                    }
+                    html += '</li>';
+                });
+
+                html += '</ul>';
+                html += '</div>';
+                html += '</div>';
+            });
+
+            container.innerHTML = html;
+            document.getElementById('total-count').textContent = quizQuestions.length;
+        }
+
+        // Render on page load
+        renderQuestions();
+    </script>
+</body>
+</html>

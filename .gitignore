@@ -12,3 +12,6 @@ Thumbs.db
 
 # Original question images (not needed for web app)
 Questions/
+
+# Local Netlify folder
+.netlify
